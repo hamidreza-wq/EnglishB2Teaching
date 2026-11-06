@@ -1,0 +1,163 @@
+<Window x:Class="EnglishB2Academy.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="English B2 Academy" Width="1400" Height="960" MinWidth="1000" MinHeight="650"
+    WindowStartupLocation="Manual" UseLayoutRounding="True" Background="{DynamicResource CanvasBrush}">
+    <Grid x:Name="Root" Background="{DynamicResource CanvasBrush}">
+        <Grid.ColumnDefinitions><ColumnDefinition x:Name="SidebarColumn" Width="224"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+        <Border Background="{DynamicResource CardBrush}" BorderBrush="{DynamicResource LineBrush}" BorderThickness="0,0,1,0">
+            <Grid Margin="16,24,16,16">
+                <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                <StackPanel Margin="10,0,10,24">
+                    <StackPanel Orientation="Horizontal">
+                        <Border Background="#146C62" CornerRadius="10" Width="36" Height="36" Margin="0,0,10,0">
+                            <TextBlock Text="B2" Foreground="White" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="ENGLISH" FontSize="13" FontWeight="Bold" Foreground="{DynamicResource InkBrush}"/>
+                            <TextBlock Text="B2 Academy" FontSize="13" Foreground="{DynamicResource MutedBrush}"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <TextBlock Text="A little every day. A world of possibility." FontSize="10" Foreground="{DynamicResource MutedBrush}" TextWrapping="Wrap" Margin="0,14,0,0"/>
+                </StackPanel>
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+                    <TextBlock Text="YOUR CLASSROOM" Style="{StaticResource Eyebrow}" Margin="12,0,0,12"/>
+                    <ListBox x:Name="Navigation" Grid.Row="1" SelectionChanged="Navigation_SelectionChanged"
+                        ItemContainerStyle="{StaticResource NavItem}" Background="Transparent" BorderThickness="0"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled" AutomationProperties.Name="Main navigation"/>
+                </Grid>
+                <StackPanel Grid.Row="2" Margin="0,16,0,0">
+                    <Border Background="{DynamicResource SoftBrush}" CornerRadius="10" Padding="12">
+                        <StackPanel>
+                            <TextBlock Text="Your space to grow" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource InkBrush}"/>
+                            <TextBlock Text="No account. No subscriptions." FontSize="11" Foreground="{DynamicResource MutedBrush}" Margin="0,6,0,0"/>
+                        </StackPanel>
+                    </Border>
+                    <Button Content="Settings &amp; help" Click="Settings_Click" Margin="0,12,0,8" HorizontalAlignment="Stretch" Background="Transparent" BorderThickness="0" HorizontalContentAlignment="Left"/>
+                    <TextBlock Text="LOCAL LEARNING  /  0.2" Style="{StaticResource Eyebrow}" FontSize="9" Margin="12,0"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions><RowDefinition Height="76"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+            <Border BorderBrush="{DynamicResource LineBrush}" BorderThickness="0,0,0,1" Padding="32,0">
+                <Grid>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock x:Name="PageTitle" Text="Home" FontSize="18" FontWeight="SemiBold" Foreground="{DynamicResource InkBrush}"/>
+                        <TextBlock Text="/" Margin="16,0" Foreground="{DynamicResource MutedBrush}" VerticalAlignment="Center"/>
+                        <TextBlock Text="Your learning space" Foreground="{DynamicResource MutedBrush}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <Button Content="Save view" Click="SaveView_Click" FontSize="11" Margin="0,0,12,0"
+                            ToolTip="Save this screen as a local PNG (F12)" Padding="12,7"/>
+                        <Border Background="{DynamicResource SoftBrush}" CornerRadius="16" Padding="12,7" VerticalAlignment="Center">
+                            <TextBlock x:Name="HeaderStatus" Text="LOCAL &amp; PRIVATE" Style="{StaticResource Eyebrow}" FontSize="10"/>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <ScrollViewer x:Name="ContentScroller" Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Padding="32,26,32,24">
+                <Grid x:Name="PageHost" MaxWidth="1250">
+                    <Grid.LayoutTransform><ScaleTransform x:Name="ReadingScale"/></Grid.LayoutTransform>
+                    <StackPanel x:Name="HomePage">
+                        <TextBlock Text="MAKE ROOM FOR YOUR NEXT CHAPTER" Style="{StaticResource Eyebrow}" Margin="0,0,0,8"/>
+                        <TextBlock x:Name="HomeHeading" Text="Your B2 journey starts here." FontSize="30" FontWeight="SemiBold" Foreground="{DynamicResource InkBrush}" Margin="0,0,0,8"/>
+                        <TextBlock Text="Build confidence in English, one meaningful step at a time." Style="{StaticResource Muted}" Margin="0,0,0,24"/>
+                        <Border CornerRadius="18" Background="#133F3E" Padding="28" Margin="0,0,0,22">
+                            <Grid>
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="200"/></Grid.ColumnDefinitions>
+                                <StackPanel>
+                                    <TextBlock Text="YOUR NEXT STEP" Foreground="#A9D6C8" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                                    <TextBlock x:Name="RecommendationTitle" Text="A clear path. Your own pace." FontSize="28" FontWeight="SemiBold" Foreground="White" TextWrapping="Wrap" Margin="0,0,0,12"/>
+                                    <TextBlock x:Name="RecommendationDetail" Text="Explore your learning plan and discover how your daily practice will fit together." Foreground="#D0E3DE" TextWrapping="Wrap" FontSize="14" MaxWidth="530" HorizontalAlignment="Left" Margin="0,0,0,18"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Content="Continue learning  &#x2192;" Background="#D7EBC4" Foreground="#163B35" BorderThickness="0" Padding="18,12" FontWeight="SemiBold" Click="Lesson_Click"/>
+                                        <TextBlock x:Name="HeroAside" Text="Start with a small step" Foreground="#BBD5CD" FontSize="12" VerticalAlignment="Center" Margin="16,0,0,0"/>
+                                    </StackPanel>
+                                </StackPanel>
+                                <Grid Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="184" Height="152">
+                                    <Ellipse Width="142" Height="142" Stroke="#37635B" StrokeThickness="1" HorizontalAlignment="Center"/>
+                                    <Ellipse Width="108" Height="108" Fill="#1E514B" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <TextBlock Text="B2" FontSize="48" FontWeight="SemiBold" Foreground="#D7EBC4" HorizontalAlignment="Center"/>
+                                        <TextBlock Text="THE NEXT CHAPTER" FontSize="8" Foreground="#BBD5CD"/>
+                                    </StackPanel>
+                                    <Border Background="#F4D59A" CornerRadius="12" Padding="12,6" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                        <TextBlock Text="Step by step" FontSize="11" Foreground="#46391E"/>
+                                    </Border>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                        <Grid Margin="0,0,0,22">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                            <Border Style="{StaticResource Card}" Padding="20,18" Margin="0,0,10,0">
+                                <StackPanel>
+                                    <TextBlock Text="DAILY STUDY GOAL" Style="{StaticResource Eyebrow}" Margin="0,0,0,8"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock x:Name="GoalValue" Text="20" FontSize="28" FontWeight="SemiBold" Foreground="{DynamicResource InkBrush}"/>
+                                        <TextBlock Text="min / day" Style="{StaticResource Muted}" VerticalAlignment="Bottom" Margin="6,0,0,5"/>
+                                    </StackPanel>
+                                    <Button Content="Make it yours  &#x2197;" Padding="0,8,0,0" Background="Transparent" BorderThickness="0" Foreground="{DynamicResource AccentBrush}" Click="Settings_Click" FontSize="12"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Grid.Column="1" Style="{StaticResource Card}" Padding="20,18" Margin="5,0">
+                                <StackPanel>
+                                    <TextBlock Text="CURRENT LEVEL" Style="{StaticResource Eyebrow}" Margin="0,0,0,8"/>
+                                    <TextBlock x:Name="LevelValue" Text="Not assessed" FontSize="20" FontWeight="SemiBold" Foreground="{DynamicResource InkBrush}" Margin="0,0,0,8" TextWrapping="Wrap"/>
+                                    <TextBlock Text="Practice indication, not certified CEFR." Style="{StaticResource Muted}" FontSize="12"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Grid.Column="2" Style="{StaticResource Card}" Padding="20,18" Margin="10,0,0,0">
+                                <StackPanel>
+                                    <TextBlock Text="YOUR DESTINATION" Style="{StaticResource Eyebrow}" Margin="0,0,0,8"/>
+                                    <TextBlock Text="B2 First" FontSize="25" FontWeight="SemiBold" Foreground="{DynamicResource InkBrush}" Margin="0,0,0,8"/>
+                                    <TextBlock Text="Default pathway · Cambridge" Style="{StaticResource Muted}" FontSize="12"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                        <Grid x:Name="LowerGrid" Margin="0,0,0,18">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="1.25*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                            <Border x:Name="TodayCard" Style="{StaticResource Card}" Margin="0,0,10,0">
+                                <StackPanel>
+                                    <TextBlock Text="A balanced daily practice" FontSize="18" FontWeight="SemiBold" Foreground="{DynamicResource InkBrush}" Margin="0,0,0,22"/>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                                        <TextBlock Text="&#xE82D;" FontFamily="Segoe MDL2 Assets" Foreground="#35877C" FontSize="22" Width="44" VerticalAlignment="Center"/>
+                                        <StackPanel><TextBlock Text="Learn something new" FontWeight="SemiBold" Style="{StaticResource Body}"/><TextBlock Text="Clear explanations, useful examples" Style="{StaticResource Muted}" FontSize="12" Margin="0,4,0,0"/></StackPanel>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                                        <TextBlock Text="&#xE70F;" FontFamily="Segoe MDL2 Assets" Foreground="#35877C" FontSize="22" Width="44" VerticalAlignment="Center"/>
+                                        <StackPanel><TextBlock Text="Put it into practice" FontWeight="SemiBold" Style="{StaticResource Body}"/><TextBlock Text="Build understanding, not just a score" Style="{StaticResource Muted}" FontSize="12" Margin="0,4,0,0"/></StackPanel>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                                        <TextBlock Text="&#xE787;" FontFamily="Segoe MDL2 Assets" Foreground="#35877C" FontSize="22" Width="44" VerticalAlignment="Center"/>
+                                        <StackPanel><TextBlock Text="Return and remember" FontWeight="SemiBold" Style="{StaticResource Body}"/><TextBlock Text="Make space for thoughtful revision" Style="{StaticResource Muted}" FontSize="12" Margin="0,4,0,0"/></StackPanel>
+                                    </StackPanel>
+                                    <Button Content="Open learning plan  &#x2192;" Click="Plan_Click" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                            <Border x:Name="SkillsCard" Grid.Column="1" Style="{StaticResource Card}" Margin="10,0,0,0">
+                                <StackPanel>
+                                    <TextBlock Text="Your skills, in focus" FontSize="18" FontWeight="SemiBold" Foreground="{DynamicResource InkBrush}" Margin="0,0,0,16"/>
+                                    <TextBlock x:Name="ActivitySummary" Text="A fresh start, not an empty score." Style="{StaticResource Muted}" Margin="0,0,0,16"/>
+                                    <UniformGrid Columns="2" Margin="-4,0,-4,12">
+                                        <Button Content="Reading  &#x2197;" Tag="Reading" Click="Skill_Click" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="4"/>
+                                        <Button Content="Writing  &#x2197;" Tag="Writing" Click="Skill_Click" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="4"/>
+                                        <Button Content="Listening  &#x2197;" Tag="Listening" Click="Skill_Click" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="4"/>
+                                        <Button Content="Speaking  &#x2197;" Tag="Speaking" Click="Skill_Click" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="4"/>
+                                    </UniformGrid>
+                                    <Border Background="{DynamicResource SoftBrush}" CornerRadius="8" Padding="12">
+                                        <TextBlock x:Name="ProgressSummary" Text="Skill insights will appear after real assessments. No estimated results yet." Style="{StaticResource Muted}" FontSize="12"/>
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                        <TextBlock Text="Built around your progress, not pressure. · Independent learning tool; not affiliated with any examination board." Style="{StaticResource Muted}" FontSize="11"/>
+                    </StackPanel>
+                    <StackPanel x:Name="SecondaryPage" Visibility="Collapsed"/>
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Window>

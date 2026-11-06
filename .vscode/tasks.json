@@ -1,0 +1,14 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build Windows dashboard",
+			"type": "shell",
+			"command": "& \"$env:LOCALAPPDATA\\EnglishB2Academy\\dotnet\\dotnet.exe\" build \"${workspaceFolder}\\src\\EnglishB2Academy\\EnglishB2Academy.csproj\" -p:Platform=x64",
+			"problemMatcher": [
+				"$msCompile"
+			],
+			"group": "build"
+		}
+	]
+}

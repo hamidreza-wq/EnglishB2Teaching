@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <!-- MS-RL: standard error-dialog protocol adapted from WiX (.NET Foundation); see docs/licences/WIX-MS-RL.txt. -->
+  <Product Id="*" Name="English B2 Academy" Language="1033" Version="$(var.AppVersion)"
+      Manufacturer="English B2 Academy project" UpgradeCode="71442F5C-9517-4E39-8C71-EE4A8BCC3628">
+    <Package InstallerVersion="500" Compressed="yes" InstallScope="perUser" InstallPrivileges="limited"
+        Platform="x64" Description="Original English practice courses and timed activities"/>
+    <MajorUpgrade DowngradeErrorMessage="A newer version of English B2 Academy is already installed."
+        Schedule="afterInstallInitialize"/>
+    <MediaTemplate EmbedCab="yes" CompressionLevel="high"/>
+    <Property Id="ARPNOREPAIR" Value="1"/>
+    <Property Id="INSTALLDESKTOPSHORTCUT" Value="1"/>
+    <Property Id="MSIRESTARTMANAGERCONTROL" Value="Disable"/>
+    <Property Id="WINDOWSBUILDNUMBER">
+      <RegistrySearch Id="CurrentWindowsBuild" Root="HKLM"
+          Key="SOFTWARE\Microsoft\Windows NT\CurrentVersion" Name="CurrentBuildNumber" Type="raw" Win64="yes"/>
+    </Property>
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER"/>
+    <Condition Message="English B2 Academy requires 64-bit Windows 10 version 1809 or later.">
+      <![CDATA[Installed OR (VersionNT64 AND (WINDOWSBUILDNUMBER >= 17763))]]>
+    </Condition>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="LocalAppDataFolder">
+        <Directory Id="ProgramsFolder" Name="Programs">
+          <Directory Id="INSTALLFOLDER" Name="EnglishB2Academy"/>
+        </Directory>
+      </Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="AcademyMenuFolder" Name="English B2 Academy">
+          <Component Id="StartMenuShortcuts" Guid="*" Win64="yes">
+            <Shortcut Id="StartMenuShortcut" Name="English B2 Academy"
+                Target="[INSTALLFOLDER]EnglishB2Academy.exe" WorkingDirectory="INSTALLFOLDER"/>
+            <Shortcut Id="UninstallShortcut" Name="Uninstall English B2 Academy"
+                Target="[SystemFolder]msiexec.exe" Arguments="/x [ProductCode]"/>
+            <RemoveFolder Id="RemoveAcademyMenu" On="uninstall"/>
+            <RegistryValue Root="HKCU" Key="Software\EnglishB2Academy\Installer" Name="StartMenu"
+                Type="integer" Value="1" KeyPath="yes"/>
+          </Component>
+        </Directory>
+      </Directory>
+      <Directory Id="DesktopFolder">
+        <Component Id="DesktopShortcutComponent" Guid="*" Win64="yes">
+          <Condition>INSTALLDESKTOPSHORTCUT = "1"</Condition>
+          <Shortcut Id="DesktopShortcut" Name="English B2 Academy"
+              Target="[INSTALLFOLDER]EnglishB2Academy.exe" WorkingDirectory="INSTALLFOLDER"/>
+          <RegistryValue Root="HKCU" Key="Software\EnglishB2Academy\Installer" Name="Desktop"
+              Type="integer" Value="1" KeyPath="yes"/>
+        </Component>
+      </Directory>
+    </Directory>
+    <Feature Id="Main" Title="English B2 Academy" Level="1" Absent="disallow">
+      <ComponentGroupRef Id="PublishedFiles"/>
+      <ComponentRef Id="StartMenuShortcuts"/>
+      <ComponentRef Id="DesktopShortcutComponent"/>
+    </Feature>
+    <UI Id="AcademyWizard">
+      <TextStyle Id="Normal" FaceName="Segoe UI" Size="9"/>
+      <TextStyle Id="Heading" FaceName="Segoe UI" Size="16" Bold="yes"/>
+      <Property Id="DefaultUIFont" Value="Normal"/>
+      <Property Id="ErrorDialog" Value="SetupError"/>
+      <Dialog Id="SetupError" Width="400" Height="190" Title="Setup error" ErrorDialog="yes">
+        <Control Id="ErrorText" Type="Text" X="24" Y="24" Width="350" Height="100" TabSkip="no" Text="[ErrorText]"/>
+        <Control Id="Y" Type="PushButton" X="160" Y="145" Width="74" Height="23" TabSkip="yes" Text="Yes">
+          <Publish Event="EndDialog" Value="ErrorYes">1</Publish>
+        </Control>
+        <Control Id="A" Type="PushButton" X="160" Y="145" Width="74" Height="23" TabSkip="yes" Text="Abort">
+          <Publish Event="EndDialog" Value="ErrorAbort">1</Publish>
+        </Control>
+        <Control Id="C" Type="PushButton" X="160" Y="145" Width="74" Height="23" TabSkip="yes" Text="Cancel">
+          <Publish Event="EndDialog" Value="ErrorCancel">1</Publish>
+        </Control>
+        <Control Id="I" Type="PushButton" X="160" Y="145" Width="74" Height="23" TabSkip="yes" Text="Ignore">
+          <Publish Event="EndDialog" Value="ErrorIgnore">1</Publish>
+        </Control>
+        <Control Id="N" Type="PushButton" X="160" Y="145" Width="74" Height="23" TabSkip="yes" Text="No">
+          <Publish Event="EndDialog" Value="ErrorNo">1</Publish>
+        </Control>
+        <Control Id="O" Type="PushButton" X="160" Y="145" Width="74" Height="23" TabSkip="yes" Text="OK">
+          <Publish Event="EndDialog" Value="ErrorOk">1</Publish>
+        </Control>
+        <Control Id="R" Type="PushButton" X="160" Y="145" Width="74" Height="23" TabSkip="yes" Text="Retry">
+          <Publish Event="EndDialog" Value="ErrorRetry">1</Publish>
+        </Control>
+      </Dialog>
+      <Dialog Id="FilesInUse" Width="400" Height="240" Title="Close running applications">
+        <Control Id="Message" Type="Text" X="24" Y="24" Width="350" Height="45"
+            Text="Some files are in use. Save your work and close English B2 Academy, then choose Retry."/>
+        <Control Id="List" Type="ListBox" X="24" Y="78" Width="350" Height="90" Property="FileInUseProcess" TabSkip="yes"/>
+        <Control Id="Exit" Type="PushButton" X="138" Y="195" Width="74" Height="23" Cancel="yes" Text="Cancel">
+          <Publish Event="EndDialog" Value="Exit">1</Publish>
+        </Control>
+        <Control Id="Ignore" Type="PushButton" X="220" Y="195" Width="74" Height="23" Text="Ignore">
+          <Publish Event="EndDialog" Value="Ignore">1</Publish>
+        </Control>
+        <Control Id="Retry" Type="PushButton" X="302" Y="195" Width="74" Height="23" Default="yes" Text="Retry">
+          <Publish Event="EndDialog" Value="Retry">1</Publish>
+        </Control>
+      </Dialog>
+      <Dialog Id="Welcome" Width="400" Height="290" Title="English B2 Academy Setup">
+        <Control Id="Title" Type="Text" X="24" Y="24" Width="350" Height="35" Transparent="yes"
+            Text="{\Heading}English B2 Academy"/>
+        <Control Id="Description" Type="Text" X="24" Y="72" Width="350" Height="90"
+            Text="Install original A1-B2 practice courses, local progress tracking and short timed practice exams. No account or subscription is required.&#13;&#10;&#13;&#10;This is an early learning release, not a complete curriculum or official examination product."/>
+        <Control Id="Desktop" Type="CheckBox" X="24" Y="170" Width="350" Height="20"
+            Property="INSTALLDESKTOPSHORTCUT" CheckBoxValue="1" Text="Create a desktop shortcut"/>
+        <Control Id="Data" Type="Text" X="24" Y="201" Width="350" Height="38"
+            Text="Installs for your Windows account. Learning data is stored separately and is preserved during upgrades and uninstall."/>
+        <Control Id="Cancel" Type="PushButton" X="220" Y="255" Width="74" Height="23" Cancel="yes" Text="Cancel">
+          <Publish Event="EndDialog" Value="Exit">1</Publish>
+        </Control>
+        <Control Id="Install" Type="PushButton" X="302" Y="255" Width="74" Height="23" Default="yes" Text="Install">
+          <Publish Event="EndDialog" Value="Return">1</Publish>
+        </Control>
+      </Dialog>
+      <Dialog Id="Progress" Width="400" Height="220" Title="Installing English B2 Academy" Modeless="yes">
+        <Control Id="Heading" Type="Text" X="24" Y="24" Width="350" Height="40" TabSkip="no" Text="{\Heading}Installing your academy"/>
+        <Control Id="Action" Type="Text" X="24" Y="83" Width="350" Height="30">
+          <Subscribe Event="ActionText" Attribute="Text"/>
+        </Control>
+        <Control Id="Bar" Type="ProgressBar" X="24" Y="123" Width="350" Height="18" ProgressBlocks="yes">
+          <Subscribe Event="SetProgress" Attribute="Progress"/>
+        </Control>
+      </Dialog>
+      <Dialog Id="Finished" Width="400" Height="220" Title="English B2 Academy Setup Complete">
+        <Control Id="Heading" Type="Text" X="24" Y="24" Width="350" Height="40" Text="{\Heading}Setup complete"/>
+        <Control Id="Text" Type="Text" X="24" Y="82" Width="350" Height="65"
+            Text="English B2 Academy is installed. Open it from the Start menu or your desktop shortcut.&#13;&#10;&#13;&#10;The app is unsigned. No automatic launch or update downloads are performed."/>
+        <Control Id="Finish" Type="PushButton" X="302" Y="177" Width="74" Height="23" Default="yes" Cancel="yes" Text="Finish">
+          <Publish Event="EndDialog" Value="Return">1</Publish>
+        </Control>
+      </Dialog>
+      <Dialog Id="Failure" Width="400" Height="220" Title="English B2 Academy Setup">
+        <Control Id="Text" Type="Text" X="24" Y="30" Width="350" Height="100"
+            Text="Setup did not complete. Existing learning data has not been intentionally removed. Re-run setup with Windows Installer logging to investigate."/>
+        <Control Id="Close" Type="PushButton" X="302" Y="177" Width="74" Height="23" Default="yes" Cancel="yes" Text="Close">
+          <Publish Event="EndDialog" Value="Return">1</Publish>
+        </Control>
+      </Dialog>
+      <Dialog Id="UserExit" Width="400" Height="190" Title="Setup cancelled">
+        <Control Id="Text" Type="Text" X="24" Y="24" Width="350" Height="100" Text="Setup was cancelled. No learning data has been removed."/>
+        <Control Id="Close" Type="PushButton" X="302" Y="145" Width="74" Height="23" Default="yes" Cancel="yes" Text="Close">
+          <Publish Event="EndDialog" Value="Return">1</Publish>
+        </Control>
+      </Dialog>
+      <InstallUISequence>
+        <Show Dialog="Welcome" Before="ExecuteAction">NOT Installed AND NOT REMOVE</Show>
+        <Show Dialog="Progress" Before="ExecuteAction">NOT REMOVE</Show>
+        <Show Dialog="Finished" OnExit="success">NOT REMOVE</Show>
+        <Show Dialog="Failure" OnExit="error">1</Show>
+        <Show Dialog="UserExit" OnExit="cancel">1</Show>
+      </InstallUISequence>
+      <AdminUISequence>
+        <Show Dialog="Finished" OnExit="success">1</Show>
+        <Show Dialog="Failure" OnExit="error">1</Show>
+        <Show Dialog="UserExit" OnExit="cancel">1</Show>
+      </AdminUISequence>
+    </UI>
+  </Product>
+</Wix>
